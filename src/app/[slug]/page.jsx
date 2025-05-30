@@ -285,6 +285,15 @@ export default function AddProfile({ params }) {
 
             <div className="flex gap-8 text-white justify-end">
               <Button
+                type="button"
+                onClick={handleCancel}
+                className="cursor-pointer hover:bg-red-700"
+                variant="destructive"
+              >
+                Cancel
+              </Button>
+
+              <Button
                 type="submit"
                 className="bg-blue-600 hover:bg-blue-700 cursor-pointer"
                 disabled={loadingButton}
@@ -297,15 +306,6 @@ export default function AddProfile({ params }) {
                 ) : (
                   "Submit"
                 )}
-              </Button>
-
-              <Button
-                type="button"
-                onClick={handleCancel}
-                className="cursor-pointer hover:bg-red-700"
-                variant="destructive"
-              >
-                Cancel
               </Button>
             </div>
           </form>
