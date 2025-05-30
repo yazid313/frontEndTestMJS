@@ -12,6 +12,7 @@ import Table from "../components/tabel/tabel";
 import { HighlightText } from "../components/handle/handleSearch";
 import HanldeLogout from "../components/handle/handleLogout";
 import { FormatDate } from "../components/formatDate/formatDate";
+import Header from "@/components/header/header";
 
 export default function AdminUsers() {
   const [users, setUsers] = useState([]);
@@ -184,57 +185,60 @@ export default function AdminUsers() {
   ];
 
   return (
-    <div
-      ref={targetRef}
-      className=" pl-5 pt-20 pb-8 w-full bg-white overflow-auto  "
-    >
-      <Toaster position="top-center" reverseOrder={false} />
-      <div className=" pr-2 ">
-        <h1 className="my-2 md:my-5 font-nunitoSans text-darkgray body-text-base-bold text-lg md:text-xl">
-          Users Data Settings
-        </h1>
-        <div>
-          <InputSearch
-            type="text"
-            placeholder="Outlet Name. . ."
-            id="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onRightButtonCLick={() => fetchDataPaginated(true)}
-            rightButton={<IoSearch />}
-            createData={<IoMedkit />}
-            linkCreate={"/create"}
-            isLoading={isLoading}
-          />
-        </div>
+    <>
+      <Header />
+      <div
+        ref={targetRef}
+        className=" pl-5 pt-20 pb-8 w-full bg-white overflow-auto  "
+      >
+        <Toaster position="top-center" reverseOrder={false} />
+        <div className=" pr-2 ">
+          <h1 className="my-2 md:my-5 font-nunitoSans text-darkgray body-text-base-bold text-lg md:text-xl">
+            Users Data Settings
+          </h1>
+          <div>
+            <InputSearch
+              type="text"
+              placeholder="Outlet Name. . ."
+              id="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onRightButtonCLick={() => fetchDataPaginated(true)}
+              rightButton={<IoSearch />}
+              createData={<IoMedkit />}
+              linkCreate={"/create"}
+              isLoading={isLoading}
+            />
+          </div>
 
-        <div className="rounded-lg shadow-lg bg-white overflow-x-auto ">
-          {isLoading ? (
-            <TableSkeleton />
-          ) : (
-            <Table data={searchQuery} columns={columns} />
+          <div className="rounded-lg shadow-lg bg-white overflow-x-auto ">
+            {isLoading ? (
+              <TableSkeleton />
+            ) : (
+              <Table data={searchQuery} columns={columns} />
+            )}
+          </div>
+
+          {/* Tampilkan navigasi pagination */}
+          {searchQuery.length > 0 && (
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              rows={rows}
+              paginate={paginate}
+              currentPage={currentPage}
+              isLoading={isLoading}
+            />
+          )}
+
+          {/* modal konfirmasi delete */}
+          {showConfirmModal && (
+            <HanldeLogout
+              handleRemove={handleRemove}
+              setShowConfirmModal={() => setShowConfirmModal(false)}
+            />
           )}
         </div>
-
-        {/* Tampilkan navigasi pagination */}
-        {searchQuery.length > 0 && (
-          <Pagination
-            itemsPerPage={itemsPerPage}
-            rows={rows}
-            paginate={paginate}
-            currentPage={currentPage}
-            isLoading={isLoading}
-          />
-        )}
-
-        {/* modal konfirmasi delete */}
-        {showConfirmModal && (
-          <HanldeLogout
-            handleRemove={handleRemove}
-            setShowConfirmModal={() => setShowConfirmModal(false)}
-          />
-        )}
       </div>
-    </div>
+    </>
   );
 }

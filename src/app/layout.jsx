@@ -26,7 +26,6 @@ export default function RootLayout({ children }) {
       >
         <div className="min-w-[277px] min-h-screen container p-2 mx-auto">
           <NextTopLoader color="#a16207" showSpinner={false} height={3} />
-          <Header />
 
           {children}
         </div>

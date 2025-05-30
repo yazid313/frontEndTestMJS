@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2Icon } from "lucide-react";
 import InputData from "@/components/form/inputData";
 import { EditDataSkeleton } from "@/components/skeleton/skeletonAdmin";
+import Header from "@/components/header/header";
 
 export default function AddProfile({ params }) {
   const router = useRouter();
@@ -150,6 +151,10 @@ export default function AddProfile({ params }) {
       };
       fetchData();
     }
+
+    if (slug !== "edit" && slug !== "create") {
+      router.push("/page-not-found");
+    }
   }, []);
 
   const handleCancel = () => {
@@ -164,153 +169,162 @@ export default function AddProfile({ params }) {
   };
 
   return (
-    <div className="p-8 pt-20 w-full">
-      <div className="">
-        <h2 className="text-xl font-nunito">Manage Users</h2>
+    <>
+      <Header />
+      <div className="p-8 pt-20 w-full">
+        <div className="">
+          <h2 className="text-xl font-nunito">Manage Users</h2>
 
-        {isLoading ? (
-          <EditDataSkeleton />
-        ) : (
-          <form
-            className="mt-4 border p-8 grid gap-4"
-            onSubmit={formik.handleSubmit}
-          >
-            <InputData
-              label="First Name :"
-              id="firstname"
-              placeholder="first name"
-              name="firstname"
-              type="text"
-              value={formik.values.firstname}
-              onChange={handleChange}
-              errorMessage={formik.errors.firstname}
-              isError={
-                formik.touched.firstname && formik.errors.firstname
-                  ? true
-                  : false
-              }
-            />
-            <InputData
-              label="Last Name :"
-              id="lastname"
-              placeholder="last name"
-              name="lastname"
-              type="text"
-              value={formik.values.lastname}
-              onChange={handleChange}
-              errorMessage={formik.errors.lastname}
-              isError={
-                formik.touched.lastname && formik.errors.lastname ? true : false
-              }
-            />
-
-            <div className="mb-4">
-              <label htmlFor="birthdate" className="block font-medium mb-1">
-                Birth Date:
-              </label>
-              <DatePicker
-                id="birthdate"
-                name="birthdate"
-                selected={formik.values.birthdate}
-                onChange={(date) => formik.setFieldValue("birthdate", date)}
-                dateFormat="dd-MM-yyyy"
-                showYearDropdown
-                showMonthDropdown
-                dropdownMode="select"
-                className={`w-full rounded-[8px] p-2 border ${
-                  formik.touched.birthdate && formik.errors.birthdate
-                    ? "border-red-500"
-                    : "border-gray-300"
-                }`}
-                placeholderText="Select birth date"
+          {isLoading ? (
+            <EditDataSkeleton />
+          ) : (
+            <form
+              className="mt-4 border p-8 grid gap-4"
+              onSubmit={formik.handleSubmit}
+            >
+              <InputData
+                label="First Name :"
+                id="firstname"
+                placeholder="first name"
+                name="firstname"
+                type="text"
+                value={formik.values.firstname}
+                onChange={handleChange}
+                errorMessage={formik.errors.firstname}
+                isError={
+                  formik.touched.firstname && formik.errors.firstname
+                    ? true
+                    : false
+                }
               />
-              {formik.touched.birthdate && formik.errors.birthdate && (
-                <p className="text-sm text-red-500">
-                  {formik.errors.birthdate}
-                </p>
-              )}
-            </div>
-            <InputData
-              label="Street :"
-              id="street"
-              placeholder="street"
-              name="street"
-              type="text"
-              value={formik.values.street}
-              onChange={handleChange}
-              errorMessage={formik.errors.street}
-              isError={
-                formik.touched.street && formik.errors.street ? true : false
-              }
-            />
-            <InputData
-              label="City :"
-              id="city"
-              placeholder="city"
-              name="city"
-              type="text"
-              value={formik.values.city}
-              onChange={handleChange}
-              errorMessage={formik.errors.city}
-              isError={formik.touched.city && formik.errors.city ? true : false}
-            />
-            <InputData
-              label="Province :"
-              id="province"
-              placeholder="province"
-              name="province"
-              type="text"
-              value={formik.values.province}
-              onChange={handleChange}
-              errorMessage={formik.errors.province}
-              isError={
-                formik.touched.province && formik.errors.province ? true : false
-              }
-            />
-            <InputData
-              label="Postal Code :"
-              id="postal_code"
-              placeholder="postal code"
-              name="postal_code"
-              type="text"
-              value={formik.values.postal_code}
-              onChange={handleChange}
-              errorMessage={formik.errors.postal_code}
-              isError={
-                formik.touched.postal_code && formik.errors.postal_code
-                  ? true
-                  : false
-              }
-            />
+              <InputData
+                label="Last Name :"
+                id="lastname"
+                placeholder="last name"
+                name="lastname"
+                type="text"
+                value={formik.values.lastname}
+                onChange={handleChange}
+                errorMessage={formik.errors.lastname}
+                isError={
+                  formik.touched.lastname && formik.errors.lastname
+                    ? true
+                    : false
+                }
+              />
 
-            <div className="flex gap-8 text-white justify-end">
-              <Button
-                type="button"
-                onClick={handleCancel}
-                className="cursor-pointer hover:bg-red-700"
-                variant="destructive"
-              >
-                Cancel
-              </Button>
-
-              <Button
-                type="submit"
-                className="bg-blue-600 hover:bg-blue-700 cursor-pointer"
-                disabled={loadingButton}
-              >
-                {loadingButton ? (
-                  <>
-                    <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
-                    Please wait
-                  </>
-                ) : (
-                  "Submit"
+              <div className="mb-4">
+                <label htmlFor="birthdate" className="block font-medium mb-1">
+                  Birth Date:
+                </label>
+                <DatePicker
+                  id="birthdate"
+                  name="birthdate"
+                  selected={formik.values.birthdate}
+                  onChange={(date) => formik.setFieldValue("birthdate", date)}
+                  dateFormat="dd-MM-yyyy"
+                  showYearDropdown
+                  showMonthDropdown
+                  dropdownMode="select"
+                  className={`w-full rounded-[8px] p-2 border ${
+                    formik.touched.birthdate && formik.errors.birthdate
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
+                  placeholderText="Select birth date"
+                />
+                {formik.touched.birthdate && formik.errors.birthdate && (
+                  <p className="text-sm text-red-500">
+                    {formik.errors.birthdate}
+                  </p>
                 )}
-              </Button>
-            </div>
-          </form>
-        )}
+              </div>
+              <InputData
+                label="Street :"
+                id="street"
+                placeholder="street"
+                name="street"
+                type="text"
+                value={formik.values.street}
+                onChange={handleChange}
+                errorMessage={formik.errors.street}
+                isError={
+                  formik.touched.street && formik.errors.street ? true : false
+                }
+              />
+              <InputData
+                label="City :"
+                id="city"
+                placeholder="city"
+                name="city"
+                type="text"
+                value={formik.values.city}
+                onChange={handleChange}
+                errorMessage={formik.errors.city}
+                isError={
+                  formik.touched.city && formik.errors.city ? true : false
+                }
+              />
+              <InputData
+                label="Province :"
+                id="province"
+                placeholder="province"
+                name="province"
+                type="text"
+                value={formik.values.province}
+                onChange={handleChange}
+                errorMessage={formik.errors.province}
+                isError={
+                  formik.touched.province && formik.errors.province
+                    ? true
+                    : false
+                }
+              />
+              <InputData
+                label="Postal Code :"
+                id="postal_code"
+                placeholder="postal code"
+                name="postal_code"
+                type="text"
+                value={formik.values.postal_code}
+                onChange={handleChange}
+                errorMessage={formik.errors.postal_code}
+                isError={
+                  formik.touched.postal_code && formik.errors.postal_code
+                    ? true
+                    : false
+                }
+              />
+
+              <div className="flex gap-8 text-white justify-end">
+                <Button
+                  type="button"
+                  onClick={handleCancel}
+                  className="cursor-pointer hover:bg-red-700"
+                  variant="destructive"
+                >
+                  Cancel
+                </Button>
+
+                <Button
+                  type="submit"
+                  className="bg-blue-600 hover:bg-blue-700 cursor-pointer"
+                  disabled={loadingButton}
+                >
+                  {loadingButton ? (
+                    <>
+                      <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                      Please wait
+                    </>
+                  ) : (
+                    "Submit"
+                  )}
+                </Button>
+              </div>
+            </form>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
